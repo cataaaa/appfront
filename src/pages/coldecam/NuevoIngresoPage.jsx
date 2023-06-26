@@ -66,7 +66,7 @@ const [choferes, setChoferes] = useState([])
       }}
     >
       <div>
-        <h2>Nuevo Ingreso</h2>
+        <h2>Nuevo Ingreso 1</h2>
 
         <Form onSubmit={formik.handleSubmit}>
           <FormGroup row>
