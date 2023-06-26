@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { useCheckAuth } from "./hooks/useCheckAuth";
+import { MainRoutes } from "./routes/MainRoutes";
+import { GuestRoutes } from "./routes/GuestRoutes";
+import ThemeProvider from "./theme";
 
 function App() {
+  const status = useCheckAuth();
+  const { pathname, search } = useLocation();
+  const lastPatch = pathname + search;
+  localStorage.setItem("lastPatch", lastPatch);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <Routes>
+        {status === "authenticated" ? (
+          <Route path="/*" element={<MainRoutes />} />
+        ) : (
+          <Route path="/*" element={<GuestRoutes />} />
+        )}
+        <Route path="/*" element={<Navigate to="/" />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
 
